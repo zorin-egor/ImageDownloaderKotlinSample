@@ -1,2 +1,6 @@
-# ImageDownloaderKotlinSample
-Image downloader library sample
+# ImageDownloader sample
+
+<b>ImageDownloader</b> - sample app with ...
+
+- Used in this sample:
+    * lib - ...
