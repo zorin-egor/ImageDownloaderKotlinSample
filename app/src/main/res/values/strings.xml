@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">ImageDownloader</string>
-    <string name="app_error">Error:\u0020</string>
+    <string name="app_error_base">Error:\u0020</string>
+    <string name="app_error_unknown">Unknown</string>
+    <string name="app_error_network">Network unavailable</string>
     <string name="list_login">Login:\u0020</string>
     <string name="list_id">Id:\u0020</string>
 </resources>

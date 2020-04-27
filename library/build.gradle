@@ -1,18 +1,19 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
 
-    buildToolsVersion '27.0.0'
-    compileSdkVersion 26
+    buildToolsVersion BUILD_TOOL
+    compileSdkVersion SDK_MAX
 
     defaultConfig {
-        minSdkVersion 15
-        targetSdkVersion 26
+        minSdkVersion SDK_MIN
+        targetSdkVersion SDK_MAX
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -22,15 +23,33 @@ android {
         }
     }
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    implementation 'com.android.support:appcompat-v7:26.1.0'
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$KOTLIN"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$KOTLIN_COROUTINES"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$KOTLIN_COROUTINES"
+
+    implementation "com.google.android.material:material:$XMATERIAL"
+    implementation "androidx.appcompat:appcompat:$XAPPCOMPAT"
+    implementation "androidx.recyclerview:recyclerview:$XRECYCLERVIEW"
+    implementation "androidx.cardview:cardview:$XCARDVIEW"
+    implementation "androidx.constraintlayout:constraintlayout:$XCONSTRAINT"
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:$XSWIPE"
+    implementation "androidx.core:core-ktx:$XCORE"
+
     implementation 'com.jakewharton:disklrucache:2.0.2'
 
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    testImplementation 'junit:junit:4.13'
+    androidTestImplementation 'androidx.test:core:1.2.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 }
