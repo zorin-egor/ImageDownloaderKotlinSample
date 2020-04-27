@@ -114,8 +114,6 @@ class ImageDownload(url: String,
 
                 // Thread
                 val bitmap = withContext(Dispatchers.Default) {
-                    delay(10000)
-
                     getBitmap({ total, progress ->
                         this@launch.launch {
                             mCallbackRef?.get()?.onProgress(total, progress)
