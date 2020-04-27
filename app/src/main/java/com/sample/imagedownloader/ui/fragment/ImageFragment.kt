@@ -26,7 +26,7 @@ class ImageFragment : BaseFragment(), ApiManager.OnActionCallback, SwipeRefreshL
 
         private val URL = "https://api.github.com/users"
         private val URL_ARG = "?since="
-        private val URL_DEFAULT_SINCE = "1"
+        private val URL_DEFAULT_SINCE = "0"
 
         fun newInstance(): ImageFragment {
             return ImageFragment()
