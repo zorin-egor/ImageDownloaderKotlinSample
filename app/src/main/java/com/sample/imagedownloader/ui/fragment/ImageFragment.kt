@@ -7,16 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-
 import com.sample.imagedownloader.R
+import com.sample.imagedownloader.manager.ApiManager
 import com.sample.imagedownloader.manager.DataObject
 import com.sample.imagedownloader.manager.NetworkManager
-import com.sample.imagedownloader.manager.RestManager
 import com.sample.imagedownloader.ui.adapter.EndlessRecyclerViewScrollListener
 import com.sample.imagedownloader.ui.adapter.ImageAdapter
 import kotlinx.android.synthetic.main.fragment_list.*
 
-class ImageFragment : BaseFragment(), RestManager.OnActionCallback, SwipeRefreshLayout.OnRefreshListener {
+class ImageFragment : BaseFragment(), ApiManager.OnActionCallback, SwipeRefreshLayout.OnRefreshListener {
 
     companion object {
 
@@ -59,24 +58,24 @@ class ImageFragment : BaseFragment(), RestManager.OnActionCallback, SwipeRefresh
 
     override fun onStart() {
         super.onStart()
-        RestManager.getInstance().setCallback(this)
+        ApiManager.getInstance().setCallback(this)
     }
 
     override fun onStop() {
         super.onStop()
-        RestManager.getInstance().removeCallback()
+        ApiManager.getInstance().removeCallback()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        RestManager.getInstance().removeCallback()
+        ApiManager.getInstance().removeCallback()
     }
 
     override fun onRefresh() {
         if (NetworkManager.isOnline(requireContext())) {
             mListAdapter.clear()
             mSinceId = URL_DEFAULT_SINCE
-            RestManager.getInstance().exec(mUrl)
+            ApiManager.getInstance().exec(mUrl)
         } else {
             showToast(getString(R.string.app_error_network))
         }
@@ -113,7 +112,7 @@ class ImageFragment : BaseFragment(), RestManager.OnActionCallback, SwipeRefresh
         recyclerView.adapter = mListAdapter
         recyclerView.addOnScrollListener(object : EndlessRecyclerViewScrollListener() {
             override fun onListEnd() {
-                RestManager.getInstance().exec(mUrl)
+                ApiManager.getInstance().exec(mUrl)
             }
         })
 

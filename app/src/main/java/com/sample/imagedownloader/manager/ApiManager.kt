@@ -10,22 +10,22 @@ import java.net.HttpURLConnection.HTTP_OK
 import java.net.URL
 
 
-class RestManager internal constructor() {
+class ApiManager internal constructor() {
 
     companion object {
 
-        val TAG = RestManager::class.java.simpleName
+        val TAG = ApiManager::class.java.simpleName
 
         private const val TIMEOUT_READ = 8000
         private const val TIMEOUT_CONNECT = 8000
         private const val REQUEST_METHOD = "GET"
 
         @Volatile
-        private var sRestManager: RestManager? = null
+        private var sApiManager: ApiManager? = null
 
-        fun getInstance(): RestManager {
-            return sRestManager ?: synchronized(this) {
-                sRestManager ?: RestManager().also { sRestManager = it }
+        fun getInstance(): ApiManager {
+            return sApiManager ?: synchronized(this) {
+                sApiManager ?: ApiManager().also { sApiManager = it }
             }
         }
     }
@@ -138,7 +138,7 @@ class RestManager internal constructor() {
         }
     }
 
-    fun setCallback(callback: OnActionCallback): RestManager {
+    fun setCallback(callback: OnActionCallback): ApiManager {
         mCallbackRef = WeakReference(callback)
 
         if (mCallbackClass != callback::javaClass.name) {
@@ -152,7 +152,7 @@ class RestManager internal constructor() {
         return this
     }
 
-    fun removeCallback(): RestManager {
+    fun removeCallback(): ApiManager {
         mCallbackRef = null
         return this
     }
