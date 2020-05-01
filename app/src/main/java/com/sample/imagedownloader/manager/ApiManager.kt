@@ -69,6 +69,9 @@ class ApiManager internal constructor() {
                                 }
                             }
                         }
+
+                        onProgress(connect.contentLength, builder.count() * 8)
+
                     }.toString()
                 }
 

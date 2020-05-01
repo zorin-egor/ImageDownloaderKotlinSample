@@ -82,6 +82,8 @@ class ImageDownload(url: String,
                             }
                         }
 
+                        onProgress(connect.contentLength, output.size())
+
                         bitmap = BitmapFactory.decodeByteArray(output.toByteArray(), 0, output.size())?.let {
                             transform?.transform(it)?: bitmap
                         }
