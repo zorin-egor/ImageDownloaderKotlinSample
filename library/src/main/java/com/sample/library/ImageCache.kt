@@ -29,6 +29,7 @@ class ImageCache {
         private const val COMPRESS_QUALITY = 100
         private val COMPRESS_FORMAT = CompressFormat.PNG
 
+        @Volatile
         private var sImageCache: ImageCache? = null
 
         fun getInstance(context: Context): ImageCache {
