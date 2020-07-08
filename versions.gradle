@@ -19,3 +19,8 @@ ext {
     XSWIPE = '1.0.0'
     XCORE = '1.0.1'
 }
+
+ext {
+    GSON = '2.8.2'
+    DISK_LRU = '2.0.2'
+}

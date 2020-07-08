@@ -46,7 +46,7 @@ dependencies {
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:$XSWIPE"
     implementation "androidx.core:core-ktx:$XCORE"
 
-    implementation 'com.jakewharton:disklrucache:2.0.2'
+    implementation "com.jakewharton:disklrucache:$DISK_LRU"
 
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test:core:1.2.0'

@@ -46,7 +46,7 @@ dependencies {
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:$XSWIPE"
     implementation "androidx.core:core-ktx:$XCORE"
 
-    implementation 'com.google.code.gson:gson:2.8.2'
+    implementation "com.google.code.gson:gson:$GSON"
 
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test:core:1.2.0'
