@@ -42,10 +42,9 @@ class ImDn {
         }
 
         fun into(imageView: ImageView) {
-            if (!sIsInit || imageView == null || sPath == null) {
+            if (!sIsInit || sPath == null) {
                 throw IllegalArgumentException("Set parameters: Context, ImageView, Path!")
             }
-
             addTask(imageView)
         }
 

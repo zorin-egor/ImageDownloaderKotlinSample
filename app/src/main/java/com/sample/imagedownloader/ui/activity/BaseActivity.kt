@@ -10,11 +10,9 @@ abstract class BaseActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction().apply {
             setCustomAnimations(R.anim.fragment_open, R.anim.fragment_close, R.anim.fragment_open,
                     R.anim.fragment_close).replace(R.id.containerFrame, fragment)
-
             if (tag != null) {
                 addToBackStack(tag)
             }
-
         }.commit()
     }
 

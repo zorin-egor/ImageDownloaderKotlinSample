@@ -19,9 +19,9 @@ class ImageDownload(url: String,
                     callback: OnResult? = null) {
 
     companion object {
-        private val TIMEOUT_READ = 5000
-        private val TIMEOUT_CONNECT = 5000
-        private val REQUEST_METHOD = "GET"
+        private const val TIMEOUT_READ = 5000
+        private const val TIMEOUT_CONNECT = 5000
+        private const val REQUEST_METHOD = "GET"
     }
 
     interface OnResult {
@@ -43,7 +43,7 @@ class ImageDownload(url: String,
 
     private fun setImage() {
         holder?.let { holder ->
-            mViewRef?.get()?.let { image ->
+            mViewRef.get()?.let { image ->
                 image.setImageResource(holder)
                 (image.drawable as? AnimationDrawable)?.start()
             }
@@ -51,7 +51,7 @@ class ImageDownload(url: String,
     }
 
     private fun getBitmap(onProgress: (Int, Int) -> Unit, onError: (String?, Throwable?) -> Unit): Bitmap? {
-        mViewRef?.get()?.let { view ->
+        mViewRef.get()?.let { view ->
             ImageCache.getInstance(view.context).get(mUrl)?.let { bitmap ->
                 return bitmap
             }
@@ -88,7 +88,7 @@ class ImageDownload(url: String,
                             transform?.transform(it)?: bitmap
                         }
 
-                        mViewRef?.get()?.let {
+                        mViewRef.get()?.let {
                             ImageCache.getInstance(it.context).add(mUrl, bitmap!!)
                         }
                     }
@@ -108,14 +108,14 @@ class ImageDownload(url: String,
     }
 
     fun exec() {
-        mJob = mScope.launch(Dispatchers.Main) {
+        mJob = mScope.launch {
             try {
                 // Ui begin
                 setImage()
                 mCallbackRef?.get()?.onBegin()
 
                 // Thread
-                val bitmap = withContext(Dispatchers.Default) {
+                val bitmap = withContext(Dispatchers.IO) {
                     getBitmap({ total, progress ->
                         this@launch.launch {
                             mCallbackRef?.get()?.onProgress(total, progress)
@@ -129,7 +129,7 @@ class ImageDownload(url: String,
 
                 // Ui end
                 bitmap?.let {
-                    mViewRef?.get()?.apply {
+                    mViewRef.get()?.apply {
                         setImageBitmap(it)
                     }
                 }
@@ -142,15 +142,8 @@ class ImageDownload(url: String,
         }
     }
 
-    fun cancel(): Boolean {
-        return try {
-            mScope.cancel()
-            true
-        } catch(e: Exception) {
-            false
-        } finally {
-            mScope = MainScope()
-        }
+    fun cancel() {
+        mScope.coroutineContext.cancelChildren()
     }
 
 }

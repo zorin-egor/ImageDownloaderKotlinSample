@@ -14,12 +14,12 @@ import java.io.File
 import java.io.IOException
 import java.math.BigInteger
 import java.security.MessageDigest
+import java.util.*
 
 
-class ImageCache {
+class ImageCache private constructor(context: Context) {
 
     companion object {
-
         private const val MD5 = "MD5"
         private const val CACHE_SUB_DIR = "image_cache"
         private const val CACHE_MEM_SIZE = 10
@@ -44,8 +44,8 @@ class ImageCache {
     private val mStorageCache: DiskLruCache
     private val mMemCache: LruCache<String, Bitmap>
 
-    private constructor(context: Context) {
-        mStorageCache = DiskLruCache.open(getDiskCacheFile(context), BuildConfig.VERSION_CODE, CACHE_STORE_COUNT, CACHE_STORE_SIZE)
+    init {
+        mStorageCache = DiskLruCache.open(getDiskCacheFile(context), 1, CACHE_STORE_COUNT, CACHE_STORE_SIZE)
         mMemCache = object : LruCache<String, Bitmap>(mCacheSize) {
             override fun sizeOf(key: String, bitmap: Bitmap): Int {
                 return bitmap.byteCount
@@ -54,14 +54,14 @@ class ImageCache {
     }
 
     fun add(key: String, bitmap: Bitmap) {
-        md5(key)?.let { md5 ->
+        md5(key).let { md5 ->
             addBitmapToMemoryCache(md5, bitmap)
             addBitmapToStorageCache(md5, bitmap)
         }
     }
 
     fun get(key: String): Bitmap? {
-        return md5(key)?.let { md5 ->
+        return md5(key).let { md5 ->
             getBitmapFromMemCache(md5) ?: getBitmapFromStorageCache(md5)
         }
     }
@@ -118,9 +118,8 @@ class ImageCache {
     private fun getBitmapFromStorageCache(key: String): Bitmap? {
         return try {
             mStorageCache.get(key)?.let { snapshot ->
-                BufferedInputStream(snapshot.getInputStream(0), IO_BUFFER_SIZE).use { input ->
-                    BitmapFactory.decodeStream(input)
-                }
+                BufferedInputStream(snapshot.getInputStream(0), IO_BUFFER_SIZE)
+                        .use(BitmapFactory::decodeStream)
             }
         } catch (e: IOException) {
             return null
@@ -130,7 +129,7 @@ class ImageCache {
     private fun md5(input: String): String {
         val md = MessageDigest.getInstance(MD5)
         val md5Data = BigInteger(1, md.digest(input.toByteArray()))
-        return String.format("%032X", md5Data).toLowerCase()
+        return String.format("%032X", md5Data).toLowerCase(Locale.getDefault())
     }
 
 }

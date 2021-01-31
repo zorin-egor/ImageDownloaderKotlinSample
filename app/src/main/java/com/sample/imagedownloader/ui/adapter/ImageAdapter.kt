@@ -33,7 +33,6 @@ class ImageAdapter : BaseAdapter<DataObject>() {
                     .transform(CircleTransformation())
                     .path(item.avatar_url ?: throw IllegalArgumentException("Bad json format"))
                     .into(mView.mItemImage)
-
             mView.mItemLoginValue.text = item.login
             mView.mItemIdValue.text = item.id
         }

@@ -50,7 +50,7 @@ class ImageFragment : BaseFragment(), ApiManager.OnActionCallback, SwipeRefreshL
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState?.apply {
+        outState.apply {
             putString(TAG_ID, mSinceId)
             putParcelableArrayList(TAG_ADAPTER, mListAdapter.items as ArrayList<out Parcelable>)
         }
@@ -62,13 +62,8 @@ class ImageFragment : BaseFragment(), ApiManager.OnActionCallback, SwipeRefreshL
     }
 
     override fun onStop() {
+        ApiManager.getInstance().removeCallback()
         super.onStop()
-        ApiManager.getInstance().removeCallback()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        ApiManager.getInstance().removeCallback()
     }
 
     override fun onRefresh() {
@@ -101,8 +96,7 @@ class ImageFragment : BaseFragment(), ApiManager.OnActionCallback, SwipeRefreshL
 
     override fun onError(error: Throwable?, message: String?) {
         progressBar.visibility = View.GONE
-        showToast(getString(R.string.app_error_base) +
-                (message ?: error?.message ?: getString(R.string.app_error_unknown)))
+        showToast(getString(R.string.app_error_base) + (message ?: error?.message ?: getString(R.string.app_error_unknown)))
     }
 
     private fun init(savedInstanceState: Bundle?) {
@@ -115,7 +109,6 @@ class ImageFragment : BaseFragment(), ApiManager.OnActionCallback, SwipeRefreshL
                 ApiManager.getInstance().exec(mUrl)
             }
         })
-
         restore(savedInstanceState)
     }
 
@@ -123,7 +116,7 @@ class ImageFragment : BaseFragment(), ApiManager.OnActionCallback, SwipeRefreshL
         if (savedInstanceState == null) {
             onRefresh()
         } else {
-            mSinceId = savedInstanceState?.getString(TAG_ID, URL_DEFAULT_SINCE) ?: ""
+            mSinceId = savedInstanceState.getString(TAG_ID, URL_DEFAULT_SINCE) ?: ""
             mListAdapter.items = savedInstanceState.getParcelableArrayList<DataObject>(TAG_ADAPTER) as ArrayList<DataObject>
         }
     }

@@ -20,7 +20,6 @@ class CircleTransformation : Transformation {
                     Path.Direction.CCW
                 )
             }
-
             Canvas(it).apply {
                 clipPath(path)
                 drawBitmap(bitmap, 0.0f, 0.0f, null)

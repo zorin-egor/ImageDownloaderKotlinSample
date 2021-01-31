@@ -40,7 +40,6 @@ class ApiManager internal constructor() {
     private var mScope = MainScope()
     private var mJob: Job? = null
     private var mCallbackRef: WeakReference<OnActionCallback>? = null
-    private var mCallbackClass: String? = null
     private val mItems: MutableList<DataObject> = mutableListOf()
 
     private fun getData(url: String, onProgress: (Int, Int) -> Unit, onError: (String?, Throwable?) -> Unit): String? {
@@ -86,18 +85,18 @@ class ApiManager internal constructor() {
             connect?.disconnect()
         }
 
-        Log.d(TAG, result)
+        Log.d(TAG, result ?: "-")
         return result
     }
 
     fun exec(url: String) {
-        mJob = mScope.launch(Dispatchers.Main) {
+        mJob = mScope.launch {
             try {
                 // Ui begin
                 mCallbackRef?.get()?.onBegin()
 
                 // Thread
-                withContext(Dispatchers.Default) {
+                withContext(Dispatchers.IO) {
                     getData(url, { total, progress ->
                         this@launch.launch {
                             mCallbackRef?.get()?.onProgress(0, progress)
@@ -130,28 +129,16 @@ class ApiManager internal constructor() {
         }
     }
 
-    fun cancel(): Boolean {
-        return try {
-            mScope.cancel()
-            true
-        } catch(e: Exception) {
-            false
-        } finally {
-            mScope = MainScope()
-        }
+    fun cancel() {
+        mScope.coroutineContext.cancelChildren()
     }
 
     fun setCallback(callback: OnActionCallback): ApiManager {
         mCallbackRef = WeakReference(callback)
-
-        if (mCallbackClass != callback::javaClass.name) {
-            mCallbackClass = callback::javaClass.name
-            mItems.clear()
-        } else if (mJob?.isActive == false && mItems.isNotEmpty()) {
+        if (mJob?.isActive == false && mItems.isNotEmpty()) {
             callback.onResult(mItems.toList())
             mItems.clear()
         }
-
         return this
     }
 

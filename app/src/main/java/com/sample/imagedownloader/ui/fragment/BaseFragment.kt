@@ -18,6 +18,11 @@ abstract class BaseFragment : Fragment() {
         init(savedInstanceState)
     }
 
+    override fun onDestroyView() {
+        mToast = null
+        super.onDestroyView()
+    }
+
     private fun init(savedInstanceState: Bundle?) {
         mToast = Toast.makeText(activity, "", Toast.LENGTH_SHORT)
     }

@@ -20,7 +20,7 @@ object NetworkManager {
                 }
             } else {
                 manager.activeNetworkInfo.let {
-                    when (it.type) {
+                    when (it?.type) {
                         ConnectivityManager.TYPE_WIFI -> true
                         ConnectivityManager.TYPE_MOBILE -> true
                         ConnectivityManager.TYPE_ETHERNET -> true
