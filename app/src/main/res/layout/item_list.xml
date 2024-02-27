@@ -15,60 +15,60 @@
         android:padding="10dp">
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/mItemImage"
+            android:id="@+id/itemImage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
-            app:layout_constraintBottom_toTopOf="@+id/mItemLoginLabel"
+            app:layout_constraintBottom_toTopOf="@+id/itemLoginLabel"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/mItemLoginLabel"
+            android:id="@+id/itemLoginLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:layout_marginTop="16dp"
             android:text="@string/list_login"
-            app:layout_constraintTop_toBottomOf="@+id/mItemImage"
-            app:layout_constraintBottom_toTopOf="@+id/mItemIdLabel"
+            app:layout_constraintTop_toBottomOf="@+id/itemImage"
+            app:layout_constraintBottom_toTopOf="@+id/itemIdLabel"
             app:layout_constraintStart_toStartOf="parent"
             />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/mItemLoginValue"
+            android:id="@+id/itemLoginValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="-"
-            app:layout_constraintBottom_toBottomOf="@+id/mItemLoginLabel"
-            app:layout_constraintStart_toEndOf="@+id/mItemLoginLabel"
-            app:layout_constraintTop_toTopOf="@+id/mItemLoginLabel"
+            app:layout_constraintBottom_toBottomOf="@+id/itemLoginLabel"
+            app:layout_constraintStart_toEndOf="@+id/itemLoginLabel"
+            app:layout_constraintTop_toTopOf="@+id/itemLoginLabel"
             />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/mItemIdLabel"
+            android:id="@+id/itemIdLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
             android:text="@string/list_id"
-            app:layout_constraintTop_toBottomOf="@+id/mItemLoginLabel"
+            app:layout_constraintTop_toBottomOf="@+id/itemLoginLabel"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/mItemIdValue"
+            android:id="@+id/itemIdValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="-"
-            app:layout_constraintBottom_toBottomOf="@+id/mItemIdLabel"
-            app:layout_constraintStart_toEndOf="@+id/mItemIdLabel"
-            app:layout_constraintTop_toTopOf="@+id/mItemIdLabel"
+            app:layout_constraintBottom_toBottomOf="@+id/itemIdLabel"
+            app:layout_constraintStart_toEndOf="@+id/itemIdLabel"
+            app:layout_constraintTop_toTopOf="@+id/itemIdLabel"
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,12 +3,13 @@ package com.sample.imagedownloader.ui.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.sample.imagedownloader.R
 import com.sample.imagedownloader.manager.DataObject
 import com.sample.library.CircleTransformation
 import com.sample.library.ImDn
-import kotlinx.android.synthetic.main.item_list.view.*
 
 class ImageAdapter : BaseAdapter<DataObject>() {
 
@@ -27,14 +28,18 @@ class ImageAdapter : BaseAdapter<DataObject>() {
 
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
         fun bind(item: DataObject) {
-            ImDn.init(mView.mItemImage.context)
+            val itemImage = mView.findViewById<ImageView>(R.id.itemImage)
+            val loginValueText = mView.findViewById<TextView>(R.id.itemLoginValue)
+            val idValueText = mView.findViewById<TextView>(R.id.itemIdValue)
+
+            ImDn.init(itemImage.context)
                     .holder(R.drawable.loading_progress_anim)
                     .error(R.drawable.ic_error_black_24dp)
                     .transform(CircleTransformation())
                     .path(item.avatar_url ?: throw IllegalArgumentException("Bad json format"))
-                    .into(mView.mItemImage)
-            mView.mItemLoginValue.text = item.login
-            mView.mItemIdValue.text = item.id
+                    .into(itemImage)
+            loginValueText.text = item.login
+            idValueText.text = item.id
         }
     }
 

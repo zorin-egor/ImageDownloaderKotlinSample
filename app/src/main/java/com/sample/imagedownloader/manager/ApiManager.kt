@@ -3,7 +3,13 @@ package com.sample.imagedownloader.manager
 import android.util.Log
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.cancelChildren
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.lang.ref.WeakReference
 import java.net.HttpURLConnection
 import java.net.HttpURLConnection.HTTP_OK
@@ -20,13 +26,10 @@ class ApiManager internal constructor() {
         private const val TIMEOUT_CONNECT = 8000
         private const val REQUEST_METHOD = "GET"
 
-        @Volatile
-        private var sApiManager: ApiManager? = null
+        private var apiManager = ApiManager()
 
         fun getInstance(): ApiManager {
-            return sApiManager ?: synchronized(this) {
-                sApiManager ?: ApiManager().also { sApiManager = it }
-            }
+            return apiManager
         }
     }
 

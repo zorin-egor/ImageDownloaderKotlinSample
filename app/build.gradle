@@ -1,17 +1,17 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-parcelize'
 
 android {
-
-    buildToolsVersion BUILD_TOOL
-    compileSdkVersion SDK_MAX
+    namespace = 'com.sample.imagedownloader'
 
     defaultConfig {
         applicationId "com.sample.imagedownloader"
         minSdkVersion SDK_MIN
         targetSdkVersion SDK_MAX
+        compileSdk SDK_MAX
+        buildToolsVersion = BUILD_TOOL
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -25,8 +25,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 }
 

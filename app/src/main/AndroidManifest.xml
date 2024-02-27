@@ -16,7 +16,8 @@
         android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name="com.sample.imagedownloader.ui.activity.MainActivity">
+        <activity android:name="com.sample.imagedownloader.ui.activity.MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

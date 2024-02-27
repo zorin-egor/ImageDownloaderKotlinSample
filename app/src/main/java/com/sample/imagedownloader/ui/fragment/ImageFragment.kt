@@ -5,7 +5,9 @@ import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.sample.imagedownloader.R
 import com.sample.imagedownloader.manager.ApiManager
@@ -13,7 +15,6 @@ import com.sample.imagedownloader.manager.DataObject
 import com.sample.imagedownloader.manager.NetworkManager
 import com.sample.imagedownloader.ui.adapter.EndlessRecyclerViewScrollListener
 import com.sample.imagedownloader.ui.adapter.ImageAdapter
-import kotlinx.android.synthetic.main.fragment_list.*
 
 class ImageFragment : BaseFragment(), ApiManager.OnActionCallback, SwipeRefreshLayout.OnRefreshListener {
 
@@ -32,6 +33,15 @@ class ImageFragment : BaseFragment(), ApiManager.OnActionCallback, SwipeRefreshL
             return ImageFragment()
         }
     }
+
+    private val swipeRefreshLayout: SwipeRefreshLayout?
+        get() = view?.findViewById(R.id.swipeRefreshLayout)
+
+    private val progressBar: ProgressBar?
+        get() = view?.findViewById(R.id.progressBar)
+
+    private val recyclerView: RecyclerView?
+        get() = view?.findViewById(R.id.recyclerView)
 
     private val mUrl: String
         get() = URL + URL_ARG + mSinceId
@@ -77,12 +87,12 @@ class ImageFragment : BaseFragment(), ApiManager.OnActionCallback, SwipeRefreshL
     }
 
     override fun onBegin() {
-        swipeRefreshLayout.isRefreshing = false
-        progressBar.visibility = View.VISIBLE
+        swipeRefreshLayout?.isRefreshing = false
+        progressBar?.visibility = View.VISIBLE
     }
 
     override fun onResult(items: List<DataObject>?) {
-        progressBar.visibility = View.GONE
+        progressBar?.visibility = View.GONE
 
         if (items?.isNotEmpty() == true) {
             mSinceId = items[items.size - 1].id ?: throw IllegalArgumentException("User id mustn't be null")
@@ -95,16 +105,16 @@ class ImageFragment : BaseFragment(), ApiManager.OnActionCallback, SwipeRefreshL
     }
 
     override fun onError(error: Throwable?, message: String?) {
-        progressBar.visibility = View.GONE
+        progressBar?.visibility = View.GONE
         showToast(getString(R.string.app_error_base) + (message ?: error?.message ?: getString(R.string.app_error_unknown)))
     }
 
     private fun init(savedInstanceState: Bundle?) {
-        swipeRefreshLayout.setOnRefreshListener(this)
-        progressBar.visibility = View.GONE
-        recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = mListAdapter
-        recyclerView.addOnScrollListener(object : EndlessRecyclerViewScrollListener() {
+        swipeRefreshLayout?.setOnRefreshListener(this)
+        progressBar?.visibility = View.GONE
+        recyclerView?.layoutManager = LinearLayoutManager(context)
+        recyclerView?.adapter = mListAdapter
+        recyclerView?.addOnScrollListener(object : EndlessRecyclerViewScrollListener() {
             override fun onListEnd() {
                 ApiManager.getInstance().exec(mUrl)
             }

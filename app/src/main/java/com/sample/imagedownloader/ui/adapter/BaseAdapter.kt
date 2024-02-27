@@ -18,9 +18,9 @@ abstract class BaseAdapter<D> : RecyclerView.Adapter<RecyclerView.ViewHolder>() 
     }
 
     fun addItems(list: List<D>) {
+        val from = items.size
         items.addAll(list)
-        notifyDataSetChanged()
-        notifyItemRangeInserted(items.size, list.size)
+        notifyItemRangeInserted(from, list.size)
     }
 
     fun getItem(index: Int): D? {
@@ -29,7 +29,7 @@ abstract class BaseAdapter<D> : RecyclerView.Adapter<RecyclerView.ViewHolder>() 
 
     fun clear() {
         items.clear()
-        notifyItemRangeRemoved(0, items.size)
+        notifyDataSetChanged()
     }
 
 }

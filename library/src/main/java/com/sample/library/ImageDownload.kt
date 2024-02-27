@@ -5,7 +5,13 @@ import android.graphics.BitmapFactory
 import android.graphics.drawable.AnimationDrawable
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.cancelChildren
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
 import java.lang.ref.WeakReference
 import java.net.HttpURLConnection
@@ -84,12 +90,13 @@ class ImageDownload(url: String,
 
                         onProgress(connect.contentLength, output.size())
 
-                        bitmap = BitmapFactory.decodeByteArray(output.toByteArray(), 0, output.size())?.let {
-                            transform?.transform(it)?: bitmap
-                        }
+                        val btm = BitmapFactory.decodeByteArray(output.toByteArray(), 0, output.size())
+                            ?.let { transform?.transform(it) ?: it }
+                            ?.also { bitmap = it }
+                            ?: return null
 
                         mViewRef.get()?.let {
-                            ImageCache.getInstance(it.context).add(mUrl, bitmap!!)
+                            ImageCache.getInstance(it.context).add(mUrl, btm)
                         }
                     }
                 }
